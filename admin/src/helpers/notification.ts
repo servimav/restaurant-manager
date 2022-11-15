@@ -1,11 +1,22 @@
 import { AxiosError } from 'axios';
 import { Notify, QSpinnerTail } from 'quasar';
-import { INotifyPosition } from 'src/types/quasar';
-import { $app, $user } from 'src/injectables';
+import { $user } from 'src/providers';
 import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
+
+type INotifyPosition =
+  | 'top-left'
+  | 'top-right'
+  | 'bottom-left'
+  | 'bottom-right'
+  | 'top'
+  | 'bottom'
+  | 'left'
+  | 'right'
+  | 'center';
+
 /**
- * ErrorHandler
+ * NotificationHelper
  */
 class NotificationHelper {
   /**
@@ -22,7 +33,7 @@ class NotificationHelper {
       // Unauthorized
       if (error.response.status === 401) {
         $user.logout();
-        return $router.push({ name: ROUTE_NAME.AUTH });
+        return $router.push({ name: ROUTE_NAME.AUTH_LOGIN });
       }
       // Client Error
       else if (error.response.status >= 400 && error.response.status < 500) {
@@ -105,7 +116,6 @@ class NotificationHelper {
     timeout = 0,
     position: INotifyPosition = 'center'
   ) {
-    $app.loading = _load;
     if (_load && spinner) {
       this._loading = Notify.create({
         spinner: QSpinnerTail,

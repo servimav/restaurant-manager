@@ -19,49 +19,57 @@
       </q-item>
       <!-- / HOME -->
 
-      <!-- Categories
-      <q-expansion-item :content-inset-level="0.25" v-if="categories.length">
-        <template v-slot:header>
-          <q-item-section avatar top>
-            <q-avatar size="md" icon="mdi-apps" text-color="primary" />
-          </q-item-section>
-
-          <q-item-section>
-            <q-item-label lines="1">Categorías</q-item-label>
-          </q-item-section>
-        </template>
-
-        <q-expansion-item
-          expand-icon-class="text-transparent"
-          :expand-separator="false"
-          v-for="(cat, cKey) in categories"
-          :key="`cat-${cat.tag}-${cKey}`"
-          @click="searchCategory(cat.id)"
-        >
-          <template v-slot:header>
-            <q-item-section avatar top>
-              <q-avatar size="md" :icon="cat.icons.mdi" text-color="primary" />
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label lines="1">{{ cat.title }}</q-item-label>
-            </q-item-section>
-          </template>
-        </q-expansion-item>
-      </q-expansion-item>
-       / Categories -->
-
-      <!-- About -->
+      <!-- Ordenes -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
         <q-item-section avatar top>
-          <q-avatar size="md" icon="mdi-information" text-color="primary" />
+          <q-avatar size="md" icon="mdi-cart-outline" text-color="primary" />
         </q-item-section>
 
         <q-item-section>
-          <q-item-label lines="1">Sobre Nosotros</q-item-label>
+          <q-item-label lines="1">Ordenes</q-item-label>
         </q-item-section>
       </q-item>
-      <!-- / About -->
+      <!-- / Ordenes -->
+
+      <!-- Menu -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+        <q-item-section avatar top>
+          <q-avatar
+            size="md"
+            icon="mdi-card-text-outline"
+            text-color="primary"
+          />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Menu</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Menu -->
+
+      <!-- Reportes -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-chart-bar" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Reportes</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Reportes -->
+
+      <!-- Settings -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-wrench" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Ajustes</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Settings -->
     </q-list>
   </q-drawer>
 </template>
