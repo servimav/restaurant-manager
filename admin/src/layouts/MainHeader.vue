@@ -10,7 +10,9 @@
         @click="$emit('update:model-value', !modelValue)"
       />
 
-      <q-toolbar>{{ Application.application.title }} </q-toolbar>
+      <q-toolbar>
+        <div class="text-h6">{{ Application.headerTitle.value }}</div>
+      </q-toolbar>
     </q-toolbar>
   </q-header>
 </template>

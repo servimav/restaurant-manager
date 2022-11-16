@@ -1,13 +1,13 @@
 import { IApplication } from 'src/types';
-import { InjectionKey, reactive } from 'vue';
+import { InjectionKey, reactive, ref } from 'vue';
 /**
  * ApplicationProvider
  */
-const useApplication = () => {
+class ApplicationProvider {
   /**
    * application
    */
-  const application = reactive<IApplication>({
+  application = reactive<IApplication>({
     active: false,
     created_at: new Date().toLocaleDateString(),
     description: '',
@@ -18,12 +18,12 @@ const useApplication = () => {
     title: 'Application Title',
     updated_at: new Date().toLocaleDateString(),
   });
+  /**
+   * headerTitle
+   */
+  headerTitle = ref('Inicio');
+}
 
-  return {
-    application,
-  };
-};
-
-export const Application = useApplication();
-export const ApplicationKey: InjectionKey<typeof Application> =
+export const Application = new ApplicationProvider();
+export const ApplicationKey: InjectionKey<ApplicationProvider> =
   Symbol('useApplication');

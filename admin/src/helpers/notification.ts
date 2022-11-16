@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { Notify, QSpinnerTail } from 'quasar';
-import { $user } from 'src/providers';
+import { User } from 'src/providers';
 import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
 
@@ -32,7 +32,7 @@ class NotificationHelper {
     if (error.response) {
       // Unauthorized
       if (error.response.status === 401) {
-        $user.logout();
+        User.logout();
         return $router.push({ name: ROUTE_NAME.AUTH_LOGIN });
       }
       // Client Error

@@ -26,13 +26,13 @@
         </q-item-section>
 
         <q-item-section>
-          <q-item-label lines="1">Ordenes</q-item-label>
+          <q-item-label lines="1">Pedidos</q-item-label>
         </q-item-section>
       </q-item>
       <!-- / Ordenes -->
 
       <!-- Menu -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.MENU }">
         <q-item-section avatar top>
           <q-avatar
             size="md"

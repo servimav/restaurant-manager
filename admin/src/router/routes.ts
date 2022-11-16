@@ -11,6 +11,11 @@ const routes: RouteRecordRaw[] = [
         name: ROUTE_NAME.HOME,
         component: () => import('pages/IndexPage.vue'),
       },
+      {
+        path: 'menu',
+        name: ROUTE_NAME.MENU,
+        component: () => import('pages/MenuPage.vue'),
+      },
     ],
   },
   {

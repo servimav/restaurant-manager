@@ -1,8 +1,7 @@
 import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
 import { LocalStorage } from 'quasar';
-
-export * from './notification';
+import { Application } from 'src/providers';
 
 /**
  * goTo
@@ -38,3 +37,22 @@ export const useStorage = () => ({
     if (value) return JSON.parse(String(value)) as T;
   },
 });
+/**
+ * toMoney
+ * @param val
+ * @returns
+ */
+export function toMoney(val: number | string) {
+  if (Number.isNaN(val)) return '$0.00';
+  return `$${Number(val).toFixed(2)}`;
+}
+/**
+ * setHeaderTitle
+ * @param title
+ */
+export function setHeaderTitle(title: string) {
+  Application.headerTitle.value = title;
+}
+
+export * from './const';
+export * from './notification';

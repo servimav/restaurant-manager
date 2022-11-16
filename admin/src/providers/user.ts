@@ -1,28 +1,33 @@
+import { DEFAULT_USER } from 'src/helpers';
 import { IUser } from 'src/types';
-import { InjectionKey, ref } from 'vue';
+import { InjectionKey, reactive } from 'vue';
 /**
  * useUser
  * @returns
  */
-const useUser = () => {
+class UserProvider {
   /**
    * profile
    */
-  const profile = ref<IUser>({
-    id: 0,
-    name: '',
-    phone: '',
-    created_at: '',
-    role: {
-      id: 0,
-      name: 'admin',
-    },
-    updated_at: '',
-  });
-  return {
-    profile,
-  };
-};
+  profile = reactive<IUser>(DEFAULT_USER);
 
-export const User = useUser();
-export const UserKey: InjectionKey<typeof User> = Symbol('useUser');
+  /**
+   * logout
+   */
+  logout() {
+    this.profile = {
+      id: 0,
+      name: '',
+      phone: '',
+      created_at: '',
+      role: {
+        id: 0,
+        name: 'admin',
+      },
+      updated_at: '',
+    };
+  }
+}
+
+export const User = new UserProvider();
+export const UserKey: InjectionKey<UserProvider> = Symbol('UserProvider');
