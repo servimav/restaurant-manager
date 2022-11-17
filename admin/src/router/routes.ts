@@ -1,10 +1,27 @@
 import { RouteRecordRaw } from 'vue-router';
+import { ROUTE_NAME } from './names';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/IndexPage.vue') }],
+    children: [
+      {
+        path: '',
+        name: ROUTE_NAME.HOME,
+        component: () => import('pages/IndexPage.vue'),
+      },
+      {
+        path: 'menu',
+        name: ROUTE_NAME.MENU,
+        component: () => import('pages/MenuPage.vue'),
+      },
+    ],
+  },
+  {
+    path: '/auth',
+    name: ROUTE_NAME.AUTH_LOGIN,
+    component: () => import('layouts/AuthLayout.vue'),
   },
 
   // Always leave this as last one,

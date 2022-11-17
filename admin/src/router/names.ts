@@ -1,0 +1,5 @@
+export enum ROUTE_NAME {
+  AUTH_LOGIN = 'AUTH_LOGIN',
+  HOME = 'ADMIN_HOME',
+  MENU = 'ADMIN_MENU',
+}
