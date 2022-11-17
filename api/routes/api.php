@@ -1,19 +1,45 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
+/**
+ * -----------------------------------------
+ *	Users
+ * -----------------------------------------
+ */
+Route::post('users/login', [UserController::class, 'login']);
+Route::apiResource('users', UserController::class);
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+/**
+ * -----------------------------------------
+ *	Clients
+ * -----------------------------------------
+ */
+Route::apiResource('clients', ClientController::class)->except('update');
+
+/**
+ * -----------------------------------------
+ *	Products
+ * -----------------------------------------
+ */
+Route::get('products/onsale', [ProductController::class, 'onsale']);
+Route::apiResource('products', ProductController::class);
+
+/**
+ * -----------------------------------------
+ *	Product categories
+ * -----------------------------------------
+ */
+Route::apiResource('product-categories', ProductCategoryController::class);
+
+/**
+ * -----------------------------------------
+ *	Orders
+ * -----------------------------------------
+ */
+Route::apiResource('orders', OrderController::class);

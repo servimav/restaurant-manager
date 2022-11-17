@@ -37,55 +37,6 @@ interface IUserRole {
 } 
 ```
 
-## Image
-Las `Imagenes` se controlan aparte y se asignan a cada modelo que requirea una imagen
-
-```typescript
-/**
- * Image Interface
- */
-interface IImage {
-	id: number;
-	title: string;
-	path: string;
-}
-/**
- * Declare object with image
- */ 
-interface IWithImage {
-	image_id: number;
-	image?: IImage; // Opcional
-}
-```
-
-## Application
-
-La aplicacion contiene la configuracion del sistema
-
-```typescript
-/**
- * Application Interface
- */
-interface IApplication extends IWithImage {
-	id: number;
-	title: string;
-	description: string;
-	logo_id: number;
-	logo?: IImage;
-	active: boolean;
-	settings: IApplicationSettings; // Ajustes
-	created_at: Date;
-	updated_at: Date;
-}
-
-/**
- * Application Settings Interface
- */ 
-interface IApplicationSettings {
-
-}
-```
-
 ## Client
 
 Los clientes que acceden al restaurant. Se autentican con el `CI`
@@ -117,18 +68,18 @@ interface IProductCategory {
 	title: string;
 	icon: string;
 	parent_id?: number;
-	onsale: boolean;
 } 
 /**
  * Product interface
  */
-interface IProduct extends IWithImage {
+interface IProduct {
 	id: number;
 	title: string;
 	description: string;
 	sell_price: number; // Precio de venta
 	production_price: number; // Precio de produccion
 	top_price: number; // Precio maximo
+	image: string;
 	category_id: number;
 	category?: IProductCategory;
 } 

@@ -1,0 +1,49 @@
+### Auth Login
+POST /api/users/login HTTP/1.1
+Host: {{ host }}
+
+{
+  "phone": "53375180",
+  "password": "password"
+}
+
+### List
+GET /api/users/ HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+### Store
+POST /api/users/ HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+{
+    "name": "UserName",
+    "phone": "55555555",
+    "password": "password",
+    "password_confirmation": "password",
+    "role": "supervisor"
+}
+
+### Show
+GET /api/users/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+### Update
+PATCH /api/users/2 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+{
+    "name": "UserName Update",
+    "password": "password",
+    "password_confirmation": "password",
+    "role": "supervisor"
+}
+
+### Destroy
+DELETE /api/users/2 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+

@@ -1,0 +1,36 @@
+### List
+GET /api/product-categories/ HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+### Store
+POST /api/product-categories/ HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+{
+    "title": "Category Name",
+    "icon": "mdi-account"
+}
+
+### Show
+GET /api/product-categories/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+
+### Update
+PATCH /api/product-categories/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+{
+    "title": "Category Update",
+    "icon": "mdi-update"
+}
+
+### Destroy
+DELETE /api/product-categories/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
