@@ -7,10 +7,10 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-const baseURL = process.env.API_URL;
+const baseURL = process.env.API_SERVER;
 
 const api = axios.create({
-  baseURL: `${process.env.API_URL}/api`,
+  baseURL: `${baseURL}/api`,
   timeout: 30000,
   timeoutErrorMessage: 'Error en la red',
   withCredentials: true,

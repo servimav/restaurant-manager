@@ -16,4 +16,6 @@ import {
 provide(ApplicationKey, Application);
 provide(MenuKey, Menu);
 provide(UserKey, User);
+
+User.load();
 </script>

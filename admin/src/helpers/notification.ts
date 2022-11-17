@@ -38,10 +38,7 @@ class NotificationHelper {
       // Client Error
       else if (error.response.status >= 400 && error.response.status < 500) {
         if (error.response.data) {
-          const responseData = error.response.data;
-          if (Array.isArray(responseData)) {
-            return this.error(responseData);
-          }
+          return this.error([String(error.response.data)]);
         }
       }
       // Server Error
@@ -131,4 +128,4 @@ class NotificationHelper {
 /**
  * Notification Helper Instance
  */
-export const notificationHelper = new NotificationHelper();
+export const useNotification = new NotificationHelper();

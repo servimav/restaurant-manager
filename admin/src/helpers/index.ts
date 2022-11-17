@@ -1,7 +1,6 @@
 import { $router } from 'src/boot/router';
 import { ROUTE_NAME } from 'src/router';
-import { LocalStorage } from 'quasar';
-import { Application } from 'src/providers';
+import { Application, User } from 'src/providers';
 
 /**
  * goTo
@@ -14,29 +13,7 @@ export const goTo = (route: ROUTE_NAME) => {
  * isAuth
  * @returns
  */
-// export const isAuth = () => Boolean($user.apiToken);
-/**
- * useStorage
- */
-export const useStorage = () => ({
-  /**
-   * save
-   * @param key
-   * @param value
-   * @returns
-   */
-  set: (key: string, value: unknown) =>
-    LocalStorage.set(key, JSON.stringify(value)),
-  /**
-   * get
-   * @param key
-   * @returns
-   */
-  get: <T>(key: string) => {
-    const value = LocalStorage.getItem(key);
-    if (value) return JSON.parse(String(value)) as T;
-  },
-});
+export const isAuth = () => Boolean(User.api_token.value);
 /**
  * toMoney
  * @param val
@@ -56,3 +33,4 @@ export function setHeaderTitle(title: string) {
 
 export * from './const';
 export * from './notification';
+export * from './storage';

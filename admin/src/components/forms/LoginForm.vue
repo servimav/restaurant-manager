@@ -40,12 +40,17 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { IUserRequestLogin } from 'src/types';
-// import MapLocalitySelector from './MapLocalitySelector.vue';
+import { injectStrict, UserKey } from 'src/providers';
+import { useNotification } from 'src/helpers';
+import { useRouter } from 'vue-router';
+import { ROUTE_NAME } from 'src/router';
 /**
  * -----------------------------------------
  *	Init
  * -----------------------------------------
  */
+const $router = useRouter();
+const User = injectStrict(UserKey);
 /**
  * -----------------------------------------
  *	Data
@@ -64,9 +69,12 @@ const loginForm = ref<IUserRequestLogin>({
  * login
  */
 async function login() {
-  console.log({
-    login: loginForm.value,
-  });
+  try {
+    await User.login(loginForm.value);
+    void $router.push({ name: ROUTE_NAME.HOME });
+  } catch (error) {
+    useNotification.axiosError(error);
+  }
 }
 </script>
 
