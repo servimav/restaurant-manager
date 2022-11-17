@@ -1,6 +1,6 @@
 import { DEFAULT_USER } from 'src/helpers';
 import { IUser } from 'src/types';
-import { InjectionKey, reactive } from 'vue';
+import { InjectionKey, reactive, ref } from 'vue';
 /**
  * useUser
  * @returns
@@ -11,6 +11,7 @@ class UserProvider {
    */
   profile = reactive<IUser>(DEFAULT_USER);
 
+  api_token = ref<string>();
   /**
    * logout
    */
