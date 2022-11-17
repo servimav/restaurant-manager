@@ -16,9 +16,25 @@ class EnsureUserHasRole
      */
     public function handle($request, Closure $next, $role)
     {
-        if ($request->user()->role !== $role) {
-            return response()->json('No tiene permisos suficientes', 401, [], JSON_NUMERIC_CHECK);
+        switch ($role) {
+            case 'admin':
+                if ($request->user()->role === 'admin')
+                    return $next($request);
+                break;
+            case 'manager':
+                if ($request->user()->role === 'admin' || $request->user()->role === 'manager')
+                    return $next($request);
+                break;
+            case 'supervisor':
+                if (
+                    $request->user()->role === 'admin' || $request->user()->role === 'manager'
+                    || $request->user()->role === 'supervisor'
+                )
+                    return $next($request);
+                break;
+            default:
+                return response()->json('No tiene permisos suficientes', 401, [], JSON_NUMERIC_CHECK);
         }
-        return $next($request);
+        return response()->json('No tiene permisos suficientes', 401, [], JSON_NUMERIC_CHECK);
     }
 }
