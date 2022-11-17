@@ -1,0 +1,53 @@
+### List
+GET /api/orders/ HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+### Store
+POST /api/orders/ HTTP/1.1
+Host: {{ host }}
+
+{
+    "table_number": 1,
+    "client": {
+        "name": "Client Name",
+        "ci": "95061336801",
+        "contact": "59786987"
+    },
+    "order_products":[
+        {
+            "product_id": 1,
+            "qty": 5
+        },{
+            "product_id": 2,
+            "qty": 2
+        }
+    ]
+}
+
+### Show
+GET /api/orders/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+
+### Update
+PATCH /api/orders/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+
+{
+    "title": "Product Name updated",
+    "description": "Description updated",
+    "sell_price": 50.50,
+    "production_price": 40.50,
+    "top_price": 100.50,
+    "onsale": true,
+    "category_id": 1
+}
+
+### Destroy
+DELETE /api/orders/1 HTTP/1.1
+Host: {{ host }}
+Authorization: {{token}}
+

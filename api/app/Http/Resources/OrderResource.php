@@ -16,10 +16,11 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'client' => $this->client,
+            'client' => new ClientResource($this->client),
             'total_price' => $this->total_price,
             'status' => $this->status,
-            'order_products' => $this->order_products,
+            'order_products' => OrderProductResource::collection($this->order_products),
+            'table_number' => $this->table_number
         ];
     }
 }

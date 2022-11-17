@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedDecimal('production_price', 8, 2)->default(0);
             $table->unsignedDecimal('top_price', 8, 2)->default(0);
             $table->boolean('onsale')->default(false);
-            $table->foreignIdFor(ProductCategory::class);
+            $table->foreignIdFor(ProductCategory::class, 'category_id');
             $table->timestamps();
         });
     }
