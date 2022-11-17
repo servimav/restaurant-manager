@@ -10,4 +10,11 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    /**
+     * errorResponse
+     */
+    public function errorResponse($error = 'Ha ocurrido un error', $staus = 400)
+    {
+        return response()->json($error, $staus, [], JSON_NUMERIC_CHECK);
+    }
 }

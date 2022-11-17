@@ -1,0 +1,8 @@
+### Auth Login
+POST /api/users/login HTTP/1.1
+Host: {{ host }}
+
+{
+  "phone": "53375180",
+  "password": "password"
+}

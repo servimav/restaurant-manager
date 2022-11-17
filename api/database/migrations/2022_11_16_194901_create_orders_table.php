@@ -19,6 +19,7 @@ return new class extends Migration
             $table->unsignedDecimal('total_price', 8, 2)->default(0);
             $table->string('status', 64)->default('created');
             $table->foreignIdFor(Client::class);
+            $table->unsignedTinyInteger('table_number')->default(0);
             $table->timestamps();
         });
     }
