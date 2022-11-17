@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProductCategoryController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -9,27 +11,27 @@ use Illuminate\Support\Facades\Route;
  *	Users
  * -----------------------------------------
  */
-Route::prefix('users')->group(function () {
-    /**
-     * Auth login
-     */
-    Route::post('login', [UserController::class, 'login']);
-    /**
-     * Users CRUD
-     */
-    Route::apiResource('', UserController::class);
-});
+Route::post('users/login', [UserController::class, 'login']);
+Route::apiResource('users', UserController::class);
 
 /**
  * -----------------------------------------
  *	Clients
  * -----------------------------------------
  */
-Route::apiResource('clients', ClientController::class);
+Route::apiResource('clients', ClientController::class)->except('update');
 
 /**
  * -----------------------------------------
  *	Products
  * -----------------------------------------
  */
-Route::apiResource('products', ClientController::class);
+Route::get('products/onsale', [ProductController::class, 'onsale']);
+Route::apiResource('products', ProductController::class);
+
+/**
+ * -----------------------------------------
+ *	Product categories
+ * -----------------------------------------
+ */
+Route::apiResource('product-categories', ProductCategoryController::class);

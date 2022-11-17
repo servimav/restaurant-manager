@@ -16,7 +16,6 @@ class EnsureUserHasRole
      */
     public function handle($request, Closure $next, $role)
     {
-        return response()->json($role);
         if ($request->user()->role !== $role) {
             return response()->json('No tiene permisos suficientes', 401, [], JSON_NUMERIC_CHECK);
         }

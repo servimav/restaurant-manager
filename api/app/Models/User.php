@@ -14,17 +14,7 @@ class User extends Authenticatable
 
     public static $ROLES = ['admin', 'manager', 'supervisor'];
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [
-        'name',
-        'phone',
-        'role',
-        'password',
-    ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -57,11 +58,14 @@ class ProductController extends Controller
             'category_id' => ['required', 'integer'],
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
+            return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
         // TODO Handle image
         $validator['image'] = '';
+        // Check Category
+        if (!ProductCategory::query()->find($validator['category_id']))
+            return $this->errorResponse('categoria no existe');
         $model = new Product($validator);
         return $model->save()
             ? new ProductResource($model)
@@ -103,8 +107,11 @@ class ProductController extends Controller
             return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
         }
         $validator = $validator->validate();
+        if (isset($validator['category_id']) && !ProductCategory::query()->find($validator['category_id']))
+            return $this->errorResponse('categoria no existe');
         // TODO Handle image
         $validator['image'] = '';
+
         $model = Product::find($id);
         return $model && $model->update($validator)
             ? new ProductResource($model)
