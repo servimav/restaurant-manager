@@ -104,7 +104,7 @@ class ProductController extends Controller
             'category_id' => ['nullable', 'integer'],
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
+            return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
         if (isset($validator['category_id']) && !ProductCategory::query()->find($validator['category_id']))

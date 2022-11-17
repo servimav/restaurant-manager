@@ -40,7 +40,7 @@ class ProductCategoryController extends Controller
             'icon' => ['nullable', 'string'],
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
+            return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
         $model = new ProductCategory($validator);
@@ -76,7 +76,7 @@ class ProductCategoryController extends Controller
             'icon' => ['nullable', 'string']
         ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
+            return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
         $model = ProductCategory::find($id);
