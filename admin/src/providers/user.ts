@@ -1,6 +1,12 @@
 import { api } from 'src/boot/axios';
 import { DEFAULT_USER, useStorage } from 'src/helpers';
-import { IUser, IUserRequestLogin, IUserResponseLogin } from 'src/types';
+import {
+  IPaginated,
+  IUser,
+  IUserRequestLogin,
+  IUserRequestStore,
+  IUserResponseLogin,
+} from 'src/types';
 import { InjectionKey, reactive, ref } from 'vue';
 /**
  * useUser
@@ -25,6 +31,38 @@ class UserProvider {
     this.profile = profile;
     this.api_token.value = api_token;
     useStorage().set('UserProvider', resp.data);
+  }
+  /**
+   * list
+   * @returns
+   */
+  async list(page = 1) {
+    return api.get<IPaginated<IUser[]>>(`users?page=${page}`);
+  }
+  /**
+   * store
+   * @param p
+   * @returns
+   */
+  async store(p: IUserRequestStore) {
+    return api.post<IUser>('users', p);
+  }
+  /**
+   * update
+   * @param id
+   * @param p
+   * @returns
+   */
+  async update(id: number, p: Partial<IUserRequestStore>) {
+    return api.patch<IUser>(`users/${id}`, p);
+  }
+  /**
+   * destroy
+   * @param id
+   * @returns
+   */
+  async destroy(id: number) {
+    return api.delete(`users/${id}`);
   }
   /**
    * -----------------------------------------

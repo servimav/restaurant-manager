@@ -29,3 +29,13 @@ export interface IUserResponseLogin {
   profile: IUser;
   api_token: string;
 }
+/**
+ * IUserRequestStore
+ */
+export interface IUserRequestStore {
+  name: string;
+  phone: string;
+  role: IRoleName;
+  password: string;
+  password_confirmation: string;
+}

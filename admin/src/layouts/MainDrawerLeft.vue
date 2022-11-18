@@ -60,7 +60,7 @@
       <!-- / Reportes -->
 
       <!-- Settings -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.SETTINGS }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-wrench" text-color="primary" />
         </q-item-section>
