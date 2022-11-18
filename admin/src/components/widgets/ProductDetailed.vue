@@ -6,7 +6,11 @@ import { toMoney } from 'src/helpers';
  *	Init
  * -----------------------------------------
  */
-defineProps<{ data: IProduct }>();
+defineProps<{ data: IProduct; editable?: boolean }>();
+const $emit = defineEmits<{
+  (e: 'remove', p: IProduct): void;
+  (e: 'edit', p: IProduct): void;
+}>();
 </script>
 
 <template>
@@ -30,7 +34,27 @@ defineProps<{ data: IProduct }>();
     ></q-img>
     <q-card-section>
       <div class="text-h6">{{ data.title }}</div>
-      <div class="text-subtitle2">{{ toMoney(data.sell_price) }}</div>
+      <div class="text-subtitle2">{{ data.description }}</div>
     </q-card-section>
+    <q-card-section>
+      <p>Venta: {{ toMoney(data.sell_price) }}</p>
+      <p>Produccion: {{ toMoney(data.production_price) }}</p>
+      <p>Precio Tope: {{ toMoney(data.top_price) }}</p>
+    </q-card-section>
+    <q-card-actions v-if="editable">
+      <q-btn
+        label="Editar"
+        icon="mdi-pencil"
+        color="primary"
+        @click="$emit('edit', data)"
+      />
+      <q-btn
+        outline
+        color="negative"
+        label="Eliminar"
+        icon="mdi-delete"
+        @click="$emit('remove', data)"
+      />
+    </q-card-actions>
   </q-card>
 </template>

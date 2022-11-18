@@ -13,7 +13,13 @@
 import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
-import { ref } from 'vue';
+import { onBeforeMount, ref } from 'vue';
+import { injectStrict, MenuKey } from 'src/providers';
 
 const drawerOpen = ref(false);
+const Menu = injectStrict(MenuKey);
+
+onBeforeMount(async () => {
+  await Menu.listCategories();
+});
 </script>

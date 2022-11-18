@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\ProductCategory;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -17,7 +18,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         User::query()->create(['name' => 'Admin', 'role' => 'admin', 'phone' => '53375180', 'password' => bcrypt('password')]);
-    }
 
-    // private function createUsers()
+        ProductCategory::query()->create([
+            'title' => 'Culinarios',
+            'icon' => 'mdi-cuttlery'
+        ]);
+    }
 }

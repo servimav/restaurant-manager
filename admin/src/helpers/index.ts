@@ -10,6 +10,15 @@ export const goTo = (route: ROUTE_NAME) => {
   void $router.push({ name: route });
 };
 /**
+ * goTop
+ */
+export function goTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth',
+  });
+}
+/**
  * isAuth
  * @returns
  */
