@@ -3,7 +3,7 @@ import ProductWidget from 'src/components/widgets/ProductWidget.vue';
 import ProductDetailed from 'src/components/widgets/ProductDetailed.vue';
 import ProductForm from 'src/components/forms/ProductForm.vue';
 import {
-  DEFAULT_COLS,
+  DEFAULT_COLS_SM,
   setHeaderTitle,
   useNotification,
   goTop,
@@ -132,7 +132,7 @@ onBeforeMount(async () => {
       <q-card-section>
         <div class="row q-col-gutter-sm">
           <div
-            :class="DEFAULT_COLS"
+            :class="DEFAULT_COLS_SM"
             v-for="(p, pKey) in products"
             :key="`product-${p.id}-${pKey}`"
           >
