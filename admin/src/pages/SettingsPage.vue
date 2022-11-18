@@ -118,7 +118,7 @@ onBeforeMount(async () => {
         <q-btn
           color="primary"
           icon="mdi-plus"
-          label="Añadir"
+          label="Añadir Usuario"
           class="full-width"
           outline
           @click="openForm(undefined)"

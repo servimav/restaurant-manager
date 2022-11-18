@@ -5,7 +5,7 @@
     show-if-above
     bordered
   >
-    <div class="q-pa-md text-grey-9 text-center">Hola, Usuario</div>
+    <div class="q-pa-md text-grey-9 text-center">Hola {{ userName }}</div>
     <q-list class="rounded-borders text-grey-9">
       <!-- HOME -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
@@ -20,7 +20,7 @@
       <!-- / HOME -->
 
       <!-- Ordenes -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.ORDERS }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-cart-outline" text-color="primary" />
         </q-item-section>
@@ -34,11 +34,7 @@
       <!-- Menu -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.MENU }">
         <q-item-section avatar top>
-          <q-avatar
-            size="md"
-            icon="mdi-card-text-outline"
-            text-color="primary"
-          />
+          <q-avatar size="md" icon="mdi-food-turkey" text-color="primary" />
         </q-item-section>
 
         <q-item-section>
@@ -75,8 +71,13 @@
 </template>
 
 <script lang="ts" setup>
+import { injectStrict, UserKey } from 'src/providers';
 import { ROUTE_NAME } from 'src/router';
+import { computed } from 'vue';
 
 defineProps<{ modelValue: boolean }>();
 defineEmits<{ (e: 'update:model-value', p: boolean): void }>();
+const User = injectStrict(UserKey);
+
+const userName = computed(() => User.profile.name);
 </script>

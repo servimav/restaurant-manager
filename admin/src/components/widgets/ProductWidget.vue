@@ -11,7 +11,7 @@ defineProps<{ data: IProduct }>();
 
 <template>
   <q-card>
-    <q-img :ratio="4 / 3" :src="data.image" class="full-width">
+    <q-img :ratio="1" :src="data.image" class="full-width">
       <div
         class="absolute-bottom-right"
         style="padding: 0px; background-color: transparent"

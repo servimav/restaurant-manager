@@ -9,8 +9,8 @@
       <q-route-tab exact :to="{ name: ROUTE_NAME.HOME }">
         <q-icon name="mdi-home" size="1.6rem" />
       </q-route-tab>
-      <q-route-tab exact :to="{ name: ROUTE_NAME.HOME }">
-        <q-icon name="mdi-store" size="1.6rem" />
+      <q-route-tab exact :to="{ name: ROUTE_NAME.MENU }">
+        <q-icon name="mdi-food-turkey" size="1.6rem" />
       </q-route-tab>
       <q-route-tab exact :to="{ name: ROUTE_NAME.HOME }">
         <q-icon name="mdi-cart-outline" size="1.6rem" />

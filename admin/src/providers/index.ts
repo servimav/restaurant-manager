@@ -17,4 +17,5 @@ export function injectStrict<T>(key: InjectionKey<T>, fallback?: T) {
  */
 export * from './app';
 export * from './menu';
+export * from './orders';
 export * from './user';

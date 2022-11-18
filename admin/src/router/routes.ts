@@ -19,6 +19,11 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/MenuPage.vue'),
       },
       {
+        path: 'orders',
+        name: ROUTE_NAME.ORDERS,
+        component: () => import('pages/OrdersPage.vue'),
+      },
+      {
         path: 'settings',
         name: ROUTE_NAME.SETTINGS,
         component: () => import('pages/SettingsPage.vue'),

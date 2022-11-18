@@ -26,7 +26,7 @@ export interface IUserRequestLogin {
  * IUserResponseLogin
  */
 export interface IUserResponseLogin {
-  profile: IUser;
+  data: IUser;
   api_token: string;
 }
 /**

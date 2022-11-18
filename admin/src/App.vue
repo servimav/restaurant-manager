@@ -9,6 +9,8 @@ import {
   ApplicationKey,
   Menu,
   MenuKey,
+  Order,
+  OrderKey,
   User,
   UserKey,
 } from './providers';
@@ -16,6 +18,7 @@ import {
 provide(ApplicationKey, Application);
 provide(MenuKey, Menu);
 provide(UserKey, User);
+provide(OrderKey, Order);
 
 User.load();
 </script>

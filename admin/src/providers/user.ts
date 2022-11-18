@@ -27,8 +27,8 @@ class UserProvider {
    */
   async login(p: IUserRequestLogin) {
     const resp = await api.post<IUserResponseLogin>('users/login', p);
-    const { api_token, profile } = resp.data;
-    this.profile = profile;
+    const { api_token, data } = resp.data;
+    this.profile = data;
     this.api_token.value = api_token;
     useStorage().set('UserProvider', resp.data);
   }
@@ -76,8 +76,8 @@ class UserProvider {
   load() {
     const storage = useStorage().get<IUserResponseLogin | null>('UserProvider');
     if (storage) {
-      const { api_token, profile } = storage;
-      this.profile = profile;
+      const { api_token, data } = storage;
+      this.profile = data;
       this.api_token.value = api_token;
     }
   }

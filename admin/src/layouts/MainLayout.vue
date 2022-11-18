@@ -13,8 +13,10 @@
 import AppFooter from './MainFooter.vue';
 import AppHeader from './MainHeader.vue';
 import DrawerLeft from './MainDrawerLeft.vue';
-import { onBeforeMount, ref } from 'vue';
-import { injectStrict, MenuKey } from 'src/providers';
+import { onBeforeMount, provide, ref } from 'vue';
+import { injectStrict, MenuKey, Order, OrderKey } from 'src/providers';
+
+provide(OrderKey, Order);
 
 const drawerOpen = ref(false);
 const Menu = injectStrict(MenuKey);
