@@ -85,7 +85,7 @@ class OrderController extends Controller
         $model = Order::find($id);
         return $model
             ? new OrderResource(Order::find($id))
-            : $this->errorResponse('No se pudo eliminar el Pedido');
+            : $this->errorResponse('No se pudo encontrar el Pedido');
     }
 
     /**
@@ -123,5 +123,52 @@ class OrderController extends Controller
         return $model && $model->delete()
             ? response()->json()
             : $this->errorResponse('No se pudo eliminar el Pedido');
+    }
+
+    /**
+     * Filter
+     * @param Request request
+     * @return Illuminate\Http\JsonResponse
+     */
+    public function filter(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => ['nullable', 'in:' . implode(',', Order::$STATUS)]
+        ]);
+        if ($validator->fails()) {
+            return $this->errorResponse('Verifique los datos enviados');
+        }
+        $validator = $validator->validate();
+        $qry = Order::query();
+        if (isset($validator['status']))
+            $qry = $qry->where('status', $validator['status']);
+
+        return OrderResource::collection($qry->paginate(15));
+    }
+    /**
+     *
+     */
+    public function count(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'status' => ['nullable', 'in:' . implode(',', Order::$STATUS)]
+        ]);
+        if ($validator->fails()) {
+            return $this->errorResponse('Verifique los datos enviados');
+        }
+        $validator = $validator->validate();
+        $count = ['created' => 0, 'accepted' => 0, 'c-canceled' => 0, 'r-canceled' => 0, 'completed' => 0];
+
+        if (isset($validator['status'])) {
+            $count[$validator['status']] = Order::query()->where('status', $validator['status'])->count();
+            return response()->json([$validator['status'] => $count], 200, [], JSON_NUMERIC_CHECK);
+        }
+
+        $count['created'] = Order::query()->where('status', 'created')->count();
+        $count['accepted'] = Order::query()->where('status', 'accepted')->count();
+        // $count['c-canceled'] = Order::query()->where('status', 'c-canceled')->count();
+        // $count['r-canceled'] = Order::query()->where('status', 'r-canceled')->count();
+        // $count['completed'] = Order::query()->where('status', 'completed')->count();
+        return response()->json($count, 200, [], JSON_NUMERIC_CHECK);
     }
 }

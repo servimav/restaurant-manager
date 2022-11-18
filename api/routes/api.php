@@ -42,4 +42,6 @@ Route::apiResource('product-categories', ProductCategoryController::class);
  *	Orders
  * -----------------------------------------
  */
+Route::get('orders/filter', [OrderController::class, 'filter']);
+Route::get('orders/count', [OrderController::class, 'count']);
 Route::apiResource('orders', OrderController::class);

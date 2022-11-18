@@ -11,7 +11,8 @@ class Order extends Model
     protected $table = 'orders';
     protected $guarded = ['id'];
 
-    static public $STATUS = ['created', 'accepted', 'preparing', 'c-canceled', 'r-canceled', 'ready', 'ontable', 'completed', 'other'];
+    // static public $STATUS = ['created', 'accepted', 'preparing', 'c-canceled', 'r-canceled', 'ready', 'ontable', 'completed', 'other'];
+    static public $STATUS = ['created', 'accepted', 'c-canceled', 'r-canceled', 'completed'];
     /**
      * Client
      */
