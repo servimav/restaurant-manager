@@ -27,11 +27,16 @@ defineProps<{ data: IProduct }>();
           text-color="white"
           :color="data.onsale ? 'positive' : 'negative'"
           :label="data.onsale ? 'Disponible' : 'No Disponible'"
-        /></div
+        />
+      </div>
+      <div
+        class="absolute-bottom-left"
+        style="padding: 0px; background-color: transparent"
+      >
+        <q-chip dense :label="toMoney(data.sell_price)" /></div
     ></q-img>
-    <q-card-section class="q-py-xs">
-      <div class="text-body1">{{ data.title }}</div>
-      <div class="text-subtitle2">{{ toMoney(data.sell_price) }}</div>
+    <q-card-section>
+      <div class="text-caption">{{ data.title }}</div>
     </q-card-section>
   </q-card>
 </template>

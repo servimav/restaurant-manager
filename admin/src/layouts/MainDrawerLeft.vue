@@ -5,7 +5,9 @@
     show-if-above
     bordered
   >
-    <div class="q-pa-md text-grey-9 text-center" v-if="client">Mesa 5</div>
+    <div class="q-pa-md text-grey-9 text-center" v-if="client">
+      Mesa No. {{ App.table }}
+    </div>
     <div class="q-pa-md text-grey-9 text-center" v-else>
       Hola {{ userName }}
     </div>
@@ -59,7 +61,7 @@
       <!-- / Categories -->
 
       <!-- Cart -->
-      <q-item exact clickable>
+      <q-item exact clickable :to="{ name: ROUTE_NAME.CLIENT_CART }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-cart" text-color="primary" />
         </q-item-section>
@@ -71,7 +73,7 @@
       <!-- / Cart -->
 
       <!-- Settings -->
-      <q-item exact clickable>
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-wrench" text-color="primary" />
         </q-item-section>
@@ -147,24 +149,44 @@
         </q-item-section>
       </q-item>
       <!-- / Settings -->
+
+      <!-- Exit -->
+      <q-item clickable @click="exit">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-exit-to-app" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Salir</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Exit -->
     </q-list>
   </q-drawer>
 </template>
 
 <script lang="ts" setup>
-import { injectStrict, UserKey, MenuKey } from 'src/providers';
+import { injectStrict, UserKey, MenuKey, ApplicationKey } from 'src/providers';
 import { ROUTE_NAME } from 'src/router';
 import { computed, onBeforeMount } from 'vue';
+import { useRouter } from 'vue-router';
 
+const App = injectStrict(ApplicationKey);
 const Menu = injectStrict(MenuKey);
+const User = injectStrict(UserKey);
+const $router = useRouter();
 
 defineProps<{ modelValue: boolean; client?: boolean }>();
 defineEmits<{ (e: 'update:model-value', p: boolean): void }>();
-const User = injectStrict(UserKey);
 
 const userName = computed(() => User.profile.name);
 
 const categories = computed(() => Menu.categories);
+
+function exit() {
+  User.logout();
+  void $router.push({ name: ROUTE_NAME.CLIENT_MENU });
+}
 
 onBeforeMount(async () => {
   await Menu.listCategories();

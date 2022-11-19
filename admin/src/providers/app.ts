@@ -22,6 +22,15 @@ class ApplicationProvider {
    * headerTitle
    */
   headerTitle = ref('Inicio');
+
+  private _tableNumber = ref(0);
+
+  set table(n: number) {
+    this._tableNumber.value = n;
+  }
+  get table() {
+    return this._tableNumber.value;
+  }
 }
 
 export const Application = new ApplicationProvider();

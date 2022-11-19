@@ -18,7 +18,7 @@ class UserProvider {
    */
   profile = reactive<IUser>(DEFAULT_USER);
 
-  api_token = ref<string>();
+  api_token = ref<string | undefined>();
 
   /**
    * -----------------------------------------
@@ -94,6 +94,7 @@ class UserProvider {
       created_at: '',
       role: 'supervisor',
     };
+    this.api_token.value = undefined;
   }
 }
 

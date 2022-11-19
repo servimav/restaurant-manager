@@ -32,7 +32,7 @@ import { toMoney } from 'src/helpers';
  */
 
 interface Props {
-  data: IOrderProduct;
+  data: Omit<IOrderProduct, 'id'>;
   details?: boolean;
 }
 defineProps<Props>();

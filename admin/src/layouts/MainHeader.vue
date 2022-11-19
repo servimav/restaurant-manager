@@ -12,7 +12,14 @@
       <q-toolbar-title>
         <div class="text-h6">{{ Application.headerTitle.value }}</div>
       </q-toolbar-title>
-      <q-btn dense flat round icon="mdi-cart" v-if="client">
+      <q-btn
+        dense
+        flat
+        round
+        icon="mdi-cart"
+        v-if="client"
+        :to="{ name: ROUTE_NAME.CLIENT_CART }"
+      >
         <q-badge
           color="warning"
           v-if="cart"
@@ -27,6 +34,7 @@
 
 <script lang="ts" setup>
 import { ApplicationKey, injectStrict, OrderKey } from 'src/providers';
+import { ROUTE_NAME } from 'src/router';
 import { computed } from 'vue';
 
 defineProps<{

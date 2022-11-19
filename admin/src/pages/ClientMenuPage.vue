@@ -81,7 +81,11 @@ onBeforeRouteUpdate((route) => {
             v-for="(product, pKey) in products"
             :key="`p-${product.id}-${pKey}`"
           >
-            <product-widget :data="product" @click="showDetails(product)" />
+            <product-widget
+              class="cursor-pointer"
+              :data="product"
+              @click="showDetails(product)"
+            />
           </div>
         </div>
       </q-card-section>

@@ -77,7 +77,7 @@ class FakeSeeder extends Seeder
                 array_push($data, [
                     'title' => $faker->name(),
                     'description' => $faker->text(),
-                    'image' => '',
+                    'image' => '/images/default.jpg',
                     'sell_price' => $faker->numberBetween(1, 100),
                     'production_price' => $faker->numberBetween(1, 100),
                     'top_price' => $faker->numberBetween(1, 100),
