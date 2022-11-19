@@ -32,6 +32,7 @@ export interface IOrder {
   id: number;
   client: IClient;
   total_price: number;
+  table_number: number;
   status: IOrderStatus;
   created_at?: Date | string;
   updated_at?: Date | string;

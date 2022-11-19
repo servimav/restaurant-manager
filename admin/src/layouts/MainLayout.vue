@@ -2,7 +2,7 @@
   <q-layout view="lHh Lpr lFF">
     <app-header v-model="drawerOpen" />
     <drawer-left v-model="drawerOpen" />
-    <q-page-container class="text-grey-9">
+    <q-page-container class="text-grey-9 bg-grey-5">
       <router-view />
     </q-page-container>
     <app-footer v-model="drawerOpen" />
@@ -23,5 +23,12 @@ const Menu = injectStrict(MenuKey);
 
 onBeforeMount(async () => {
   await Menu.listCategories();
+  await Order.count();
 });
 </script>
+
+<style scoped>
+.bg-page {
+  background-color: gray;
+}
+</style>

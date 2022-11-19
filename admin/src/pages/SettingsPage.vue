@@ -116,35 +116,34 @@ onBeforeMount(async () => {
     <q-card class="no-box-shadow">
       <q-card-section>
         <q-btn
-          color="primary"
           icon="mdi-plus"
           label="Añadir Usuario"
           class="full-width"
-          outline
+          color="primary"
           @click="openForm(undefined)"
         />
       </q-card-section>
-      <q-card-section>
-        <div class="row q-col-gutter-sm">
-          <div
-            :class="DEFAULT_COLS"
-            v-for="(p, pKey) in users"
-            :key="`user-${p.id}-${pKey}`"
-          >
-            <UserWidget :data="p" @click="openForm(p)" />
-          </div>
-        </div>
-      </q-card-section>
-
-      <q-card-actions class="q-pa-lg flex flex-center">
-        <q-pagination
-          v-model="pagination.meta.current_page"
-          :max="maxPage"
-          input
-          @update:model-value="(v:number) => onPaginationChange(v)"
-        />
-      </q-card-actions>
     </q-card>
+    <q-card-section class="q-px-none">
+      <div class="row q-col-gutter-sm">
+        <div
+          :class="DEFAULT_COLS"
+          v-for="(p, pKey) in users"
+          :key="`user-${p.id}-${pKey}`"
+        >
+          <UserWidget :data="p" @click="openForm(p)" />
+        </div>
+      </div>
+    </q-card-section>
+    <q-card-actions class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="pagination.meta.current_page"
+        :max="maxPage"
+        input
+        @update:model-value="(v:number) => onPaginationChange(v)"
+      />
+    </q-card-actions>
+    <!-- </q-card> -->
   </q-page>
 
   <!-- Dialog -->

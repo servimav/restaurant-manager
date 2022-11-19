@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { setHeaderTitle, DEFAULT_COLS, useNotification } from 'src/helpers';
+import {
+  setHeaderTitle,
+  DEFAULT_COLS,
+  useNotification,
+  goTop,
+} from 'src/helpers';
 import { computed, onBeforeMount, ref } from 'vue';
 import { injectStrict, OrderKey } from 'src/providers';
 import { IOrder, IOrderStatus, IPaginated } from 'src/types';
@@ -7,6 +12,9 @@ import OrderSelection, {
   type IFilter,
 } from 'src/components/widgets/OrderSelection.vue';
 import OrderWidget from 'src/components/widgets/OrderWidget.vue';
+import { Dialog } from 'quasar';
+import { useRoute } from 'vue-router';
+import { route } from 'quasar/wrappers';
 /**
  * -----------------------------------------
  *	Init
@@ -14,6 +22,7 @@ import OrderWidget from 'src/components/widgets/OrderWidget.vue';
  */
 
 const Order = injectStrict(OrderKey);
+const $route = useRoute();
 /**
  * -----------------------------------------
  *	Data
@@ -33,7 +42,14 @@ const pagination = ref<IPaginated<IOrder[]>>({
     current_page: 0,
   },
 });
+
 const orders = computed(() => pagination.value.data);
+
+const maxPage = computed(() => {
+  if (pagination.value.meta.last_page)
+    return Number(pagination.value.meta.last_page);
+  return pagination.value.meta.current_page;
+});
 
 /**
  * -----------------------------------------
@@ -54,12 +70,38 @@ async function loadOrders(status: IOrderStatus | 'all', page?: number) {
   }
 }
 /**
- * setFilter
+ * onChangeStatus
  * @param p
  */
-async function setFilter(p: IFilter) {
-  filter.value = p;
-  await loadOrders(p.status);
+function onChangeStatus(p: { status: IOrderStatus; order: IOrder }) {
+  let label = 'Aceptado';
+  if (p.status === 'r-canceled') label = 'Cancelado';
+  else if (p.status === 'completed') label = 'Completado';
+
+  Dialog.create({
+    title: 'Cambio de estado',
+    message: `Va a cambiar el estado de la orden #${
+      p.order.id
+    } a ${label.toLocaleUpperCase()}`,
+    ok: 'Cambiar Estado',
+    cancel: 'No Cambiar',
+  }).onOk(async () => {
+    try {
+      await Order.update(p.order.id, p.status);
+      await loadOrders(filter.value.status);
+      Order.count();
+    } catch (error) {
+      useNotification.axiosError(error);
+    }
+  });
+}
+/**
+ * onPaginationChange
+ * @param p
+ */
+async function onPaginationChange(p: number) {
+  await loadOrders(filter.value.status, p);
+  goTop();
 }
 /**
  * -----------------------------------------
@@ -69,29 +111,48 @@ async function setFilter(p: IFilter) {
 
 onBeforeMount(async () => {
   setHeaderTitle('Pedidos');
-  await loadOrders('all');
+  if ($route.query.status)
+    filter.value.status = $route.query.status as IOrderStatus;
+  await loadOrders(filter.value.status);
 });
 </script>
 
 <template>
   <q-page padding>
-    <order-selection @select="setFilter" />
+    <order-selection
+      v-model="filter"
+      @update:model-value="
+        (v) => {
+          filter = v;
+          loadOrders(filter.status);
+        }
+      "
+    />
 
-    <q-card class="no-box-shadow mt-sm">
-      <q-card-section>
-        <div class="text-h6">{{ filter.label }}</div>
-      </q-card-section>
-      <q-card-section>
-        <div class="row q-col-gutter-sm">
-          <div
-            :class="DEFAULT_COLS"
-            v-for="(order, key) in orders"
-            :key="`order-${order.id}-${key}`"
-          >
-            <order-widget :order="order" />
-          </div>
+    <!-- <q-card class="no-box-shadow mt-sm"> -->
+    <q-card-section class="q-px-none">
+      <div class="row q-col-gutter-sm">
+        <div
+          :class="DEFAULT_COLS"
+          v-for="(order, key) in orders"
+          :key="`order-${order.id}-${key}`"
+        >
+          <order-widget
+            :order="order"
+            @change-status="(status) => onChangeStatus({ status, order })"
+          />
         </div>
-      </q-card-section>
-    </q-card>
+      </div>
+    </q-card-section>
+
+    <q-card-actions class="q-pa-lg flex flex-center">
+      <q-pagination
+        v-model="pagination.meta.current_page"
+        :max="maxPage"
+        input
+        @update:model-value="(v:number) => onPaginationChange(v)"
+      />
+    </q-card-actions>
+    <!-- </q-card> -->
   </q-page>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { toMoney } from 'src/helpers';
-import { IOrder } from 'src/types';
+import { IOrder, IOrderStatus } from 'src/types';
 import { computed, toRefs } from 'vue';
 import OrderOffer from './OrderOfferWidget.vue';
 /**
@@ -10,6 +10,7 @@ import OrderOffer from './OrderOfferWidget.vue';
  */
 
 const $props = defineProps<{ order: IOrder }>();
+const $emit = defineEmits<{ (e: 'change-status', p: IOrderStatus): void }>();
 /**
  * -----------------------------------------
  *	Data
@@ -26,7 +27,7 @@ const status = computed<{
     case 'r-canceled':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado por usted',
+        text: 'Denegado',
         color: 'negative',
         text_color: 'white',
       };
@@ -40,7 +41,7 @@ const status = computed<{
     case 'c-canceled':
       return {
         icon: 'mdi-cancel',
-        text: 'Cancelado por Cliente',
+        text: 'Cancelado',
         color: 'negative',
         text_color: 'white',
       };
@@ -70,8 +71,11 @@ const status = computed<{
 <template>
   <q-card>
     <q-card-section>
-      <div class="text-body1">{{ toMoney(order.total_price) }}</div>
+      <div class="absolute-top-left q-pa-xs">
+        <q-chip class="glossy" :label="`#${order.id}`" />
+      </div>
       <div class="absolute-top-right q-pa-xs">
+        <q-chip :label="`Mesa ${order.table_number}`" />
         <q-chip
           class="glossy"
           :label="status.text"
@@ -85,12 +89,37 @@ const status = computed<{
       <div
         v-for="(of, ofKey) in order.order_products"
         :key="`order-offer-${order.id}-${ofKey}`"
+        class="mt-sm"
       >
-        <order-offer :data="of" />
+        <order-offer :data="of" details />
       </div>
     </q-card-section>
-    <q-card-actions>
-      <q-btn color="primary" label="Detalles" />
-    </q-card-actions>
+    <q-card-section>
+      <div class="text-body1">Total: {{ toMoney(order.total_price) }}</div>
+    </q-card-section>
+
+    <q-card-section>
+      <q-btn
+        color="primary"
+        dense
+        label="Aceptar"
+        @click="$emit('change-status', 'accepted')"
+        v-if="order.status === 'created'"
+      />
+      <q-btn
+        color="negative"
+        dense
+        label="Cancelar"
+        @click="$emit('change-status', 'r-canceled')"
+        v-if="order.status === 'accepted' || order.status === 'created'"
+      />
+      <q-btn
+        color="positive"
+        dense
+        label="Completar"
+        @click="$emit('change-status', 'completed')"
+        v-if="order.status === 'accepted'"
+      />
+    </q-card-section>
   </q-card>
 </template>

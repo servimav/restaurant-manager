@@ -12,9 +12,14 @@
       <q-route-tab exact :to="{ name: ROUTE_NAME.MENU }">
         <q-icon name="mdi-food-turkey" size="1.6rem" />
       </q-route-tab>
-      <q-route-tab exact :to="{ name: ROUTE_NAME.HOME }">
+      <q-route-tab
+        exact
+        :to="{ name: ROUTE_NAME.ORDERS, query: { status: 'created' } }"
+      >
         <q-icon name="mdi-cart-outline" size="1.6rem" />
-        <q-badge color="dark" floating> 5 </q-badge>
+        <q-badge color="warning" text-color="dark" floating>
+          {{ counter.created }}
+        </q-badge>
       </q-route-tab>
       <q-tab>
         <q-icon
@@ -26,13 +31,19 @@
     </q-tabs>
   </q-footer>
 </template>
+
 <script lang="ts" setup>
+import { injectStrict, OrderKey } from 'src/providers';
 import { ROUTE_NAME } from 'src/router';
+import { computed } from 'vue';
 
 defineProps<{ modelValue: boolean }>();
 defineEmits<{
   (e: 'update:model-value', p: boolean): void;
 }>();
+const Order = injectStrict(OrderKey);
+
+const counter = computed(() => Order.counter.value);
 </script>
 
 <style>

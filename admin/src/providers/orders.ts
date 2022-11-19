@@ -1,31 +1,23 @@
 import { api } from 'src/boot/axios';
 import { IOrder, IOrderStatus, IPaginated } from 'src/types';
-import { InjectionKey, reactive } from 'vue';
+import { InjectionKey, ref } from 'vue';
 
 interface ICounter {
   accepted: number;
-  canceled: number;
   created: number;
-  preparing: number;
   'c-canceled': number;
   'r-canceled': number;
-  ready: number;
-  ontable: number;
   completed: number;
 }
 /**
  * OrderProvider
  */
 class OrderProvider {
-  counter = reactive<ICounter>({
+  counter = ref<ICounter>({
     accepted: 0,
-    canceled: 0,
     created: 0,
-    preparing: 0,
     'c-canceled': 0,
     'r-canceled': 0,
-    ready: 0,
-    ontable: 0,
     completed: 0,
   });
   /**
@@ -38,8 +30,10 @@ class OrderProvider {
    * count
    * @returns
    */
-  async count() {
-    return api.get<ICounter>('orders/count');
+  async count(params?: { status: IOrderStatus }) {
+    const resp = await api.get<ICounter>('orders/count', { params });
+    this.counter.value = resp.data;
+    return resp.data;
   }
   /**
    * filter
@@ -55,6 +49,15 @@ class OrderProvider {
    */
   async list(params?: { page?: number }) {
     return api.get<IPaginated<IOrder[]>>('orders', { params });
+  }
+  /**
+   * update
+   * @param id
+   * @param status
+   * @returns
+   */
+  async update(id: number, status: IOrderStatus) {
+    return api.patch<IOrder>(`orders/${id}`, { status });
   }
 }
 

@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { IOrderStatus } from 'src/types';
-import { ref } from 'vue';
+import { toRefs } from 'vue';
 
 export interface IFilter {
   icon: string;
   label: string;
   status: IOrderStatus | 'all';
 }
-const $emit = defineEmits<{ (e: 'select', p: IFilter): void }>();
+const $props = defineProps<{ modelValue: IFilter }>();
+const $emit = defineEmits<{ (e: 'update:model-value', p: IFilter): void }>();
 
 const chips: IFilter[] = [
   {
@@ -57,15 +58,10 @@ const chips: IFilter[] = [
   },
 ];
 
-const selected = ref<IFilter>({
-  icon: 'mdi-expand-all-outline',
-  label: 'Todos',
-  status: 'all',
-});
+const { modelValue } = toRefs($props);
 
 function onSelect(chip: IFilter) {
-  selected.value = chip;
-  $emit('select', chip);
+  $emit('update:model-value', chip);
 }
 </script>
 
@@ -80,8 +76,8 @@ function onSelect(chip: IFilter) {
         :icon="chip.icon"
         :label="chip.label"
         @click="onSelect(chip)"
-        :color="selected.status === chip.status ? 'primary' : ''"
-        :text-color="selected.status === chip.status ? 'white' : ''"
+        :color="modelValue.status === chip.status ? 'primary' : ''"
+        :text-color="modelValue.status === chip.status ? 'white' : ''"
       />
     </q-card-section>
   </q-card>
