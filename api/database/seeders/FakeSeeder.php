@@ -24,9 +24,9 @@ class FakeSeeder extends Seeder
 
         $this->users();
         $this->categories();
-        $this->products(10, 2);
+        $this->products(10, 10);
         $this->clients();
-        $this->orders();
+        $this->orders(10, 20);
         $this->orderProducts();
     }
     /**

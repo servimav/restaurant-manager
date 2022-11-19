@@ -23,7 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return OrderResource::collection(Order::query()->paginate(15));
+        return OrderResource::collection(Order::query()->orderByDesc('id')->paginate(15));
     }
 
     /**
@@ -143,7 +143,7 @@ class OrderController extends Controller
         if (isset($validator['status']))
             $qry = $qry->where('status', $validator['status']);
 
-        return OrderResource::collection($qry->paginate(15));
+        return OrderResource::collection($qry->orderByDesc('id')->paginate(15));
     }
     /**
      *

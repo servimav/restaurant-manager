@@ -27,7 +27,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return ProductResource::collection(Product::query()->paginate(15));
+        return ProductResource::collection(Product::query()->orderByDesc('id')->paginate(15));
     }
 
     /**
