@@ -35,9 +35,21 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function onsale()
+    public function onsale(Request $request)
     {
-        return ProductResource::collection(Product::query()->where(['onsale', true])->paginate(15));
+        $validator = Validator::make($request->all(), [
+            'category_id' => ['nullable', 'integer'],
+        ]);
+        if ($validator->fails()) {
+            return $this->errorResponse('Verifique los datos enviados');
+        }
+        $validator = $validator->validate();
+        if (isset($validator['category_id'])) {
+            return ProductResource::collection(Product::query()->where([
+                ['onsale', true], ['category_id', $validator['category_id']]
+            ])->orderBy('category_id')->get());
+        }
+        return ProductResource::collection(Product::query()->where('onsale', true)->orderBy('category_id')->get());
     }
 
     /**

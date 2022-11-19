@@ -5,6 +5,27 @@ import { ROUTE_NAME } from './names';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
+    component: () => import('layouts/ClientLayout.vue'),
+    children: [
+      {
+        path: '',
+        name: ROUTE_NAME.CLIENT_MENU,
+        component: () => import('pages/ClientMenuPage.vue'),
+      },
+      {
+        path: 'menu',
+        name: ROUTE_NAME.CLIENT_CART,
+        component: () => import('pages/MenuPage.vue'),
+      },
+      {
+        path: 'orders',
+        name: ROUTE_NAME.CLIENT_CHECKOUT,
+        component: () => import('pages/OrdersPage.vue'),
+      },
+    ],
+  },
+  {
+    path: '/admin',
     component: () => import('layouts/MainLayout.vue'),
     beforeEnter: AuthGuard,
     children: [

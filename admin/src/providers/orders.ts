@@ -1,5 +1,5 @@
 import { api } from 'src/boot/axios';
-import { IOrder, IOrderStatus, IPaginated } from 'src/types';
+import { IOrder, IOrderProduct, IOrderStatus, IPaginated } from 'src/types';
 import { InjectionKey, ref } from 'vue';
 
 interface ICounter {
@@ -20,6 +20,14 @@ class OrderProvider {
     'r-canceled': 0,
     completed: 0,
   });
+  private _cart = ref<Omit<IOrderProduct, 'id'>[]>([]);
+
+  get cart() {
+    return this._cart.value;
+  }
+  set cart(c: Omit<IOrderProduct, 'id'>[]) {
+    this._cart.value = c;
+  }
   /**
    * -----------------------------------------
    *	Actions
@@ -58,6 +66,26 @@ class OrderProvider {
    */
   async update(id: number, status: IOrderStatus) {
     return api.patch<IOrder>(`orders/${id}`, { status });
+  }
+
+  /**
+   * -----------------------------------------
+   *	Methods
+   * -----------------------------------------
+   */
+  /**
+   * addToCart
+   * @param p
+   */
+  addToCart(p: Omit<IOrderProduct, 'id'>) {
+    if (p.qty < 1) return;
+    // Check if exists
+    const index = this.cart.findIndex((c) => c.product_id === p.product_id);
+    if (index >= 0) {
+      this.cart[index].qty += p.qty;
+    } else {
+      this.cart.push(p);
+    }
   }
 }
 
