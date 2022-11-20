@@ -74,7 +74,7 @@ class ProductController extends Controller
         }
         $validator = $validator->validate();
         // TODO Handle image
-        $validator['image'] = '';
+        $validator['image'] = '/images/default.jpg';
         // Check Category
         if (!ProductCategory::query()->find($validator['category_id']))
             return $this->errorResponse('categoria no existe');
@@ -122,7 +122,7 @@ class ProductController extends Controller
         if (isset($validator['category_id']) && !ProductCategory::query()->find($validator['category_id']))
             return $this->errorResponse('categoria no existe');
         // TODO Handle image
-        $validator['image'] = '';
+        $validator['image'] = '/images/default.jpg';
 
         $model = Product::find($id);
         return $model && $model->update($validator)

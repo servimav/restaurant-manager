@@ -69,6 +69,8 @@ module.exports = configure(function (/* ctx */) {
       // minify: false,
       // polyfillModulePreload: true,
       // distDir
+      publicPath: '/ui',
+      distDir: '../api/public/ui',
 
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
@@ -80,7 +82,7 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      https: true,
+      https: false,
       open: false, // opens browser window automatically
     },
 

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lff">
-    <q-page-container class="bg-secondary">
+    <q-page-container class="bg-grey-8">
       <q-page padding class="q-pa-sm">
         <q-card-section class="vh mx-auto">
           <login-form class="absolute-center" />
