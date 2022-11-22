@@ -1,13 +1,22 @@
 <script setup lang="ts">
-import { IClient, IOrderProduct } from 'src/types';
-import { getDataFromQrCi } from 'src/helpers';
+import { IClient, IOrder, IOrderProduct } from 'src/types';
+import { getDataFromQrCi, useNotification } from 'src/helpers';
 import { computed, ref } from 'vue';
 import { QrStream } from 'vue3-qr-reader';
+import { injectStrict, OrderKey } from 'src/providers';
 
 const $props = defineProps<{
   orderProducts: Omit<IOrderProduct, 'id'>[];
   table: number;
 }>();
+const $emit = defineEmits<{ (e: 'completed', p: IOrder): void }>();
+const Order = injectStrict(OrderKey);
+/**
+ * -----------------------------------------
+ *	Data
+ * -----------------------------------------
+ */
+
 const showReader = ref(false);
 const qrReady = computed(() => client.value.ci && client.value.name);
 
@@ -17,7 +26,10 @@ const client = ref<IClient>({
   id: 0,
   name: '',
 });
-
+/**
+ * onDecode
+ * @param qr
+ */
 function onDecode(qr: string) {
   const decode = getDataFromQrCi(qr);
   if (decode) {
@@ -30,9 +42,21 @@ function onDecode(qr: string) {
   }
   showReader.value = false;
 }
-
+/**
+ * onSubmit
+ */
 async function onSubmit() {
-  console.log('onSubmit');
+  try {
+    const resp = await Order.create({
+      client: client.value,
+      order_products: $props.orderProducts,
+      table_number: 1,
+    });
+    useNotification.success([`La Orden #${resp.data.id} ha sido creada`]);
+    $emit('completed', resp.data);
+  } catch (error) {
+    useNotification.axiosError(error);
+  }
 }
 </script>
 

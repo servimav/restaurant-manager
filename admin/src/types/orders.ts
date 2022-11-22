@@ -38,3 +38,11 @@ export interface IOrder {
   updated_at?: Date | string;
   order_products: IOrderProduct[];
 }
+/**
+ * IOrderRequestCreate
+ */
+export interface IOrderRequestCreate {
+  client: Omit<IClient, 'id'>;
+  table_number: number;
+  order_products: Omit<IOrderProduct, 'id'>[];
+}

@@ -115,7 +115,7 @@ function onInput(evt: Event) {
   button {
     -webkit-appearance: none;
     transition: background 0.5s ease;
-    background: #387e90;
+    background: #1976d2;
     border: 0;
     color: #fff;
     cursor: pointer;

@@ -1,5 +1,11 @@
 import { api } from 'src/boot/axios';
-import { IOrder, IOrderProduct, IOrderStatus, IPaginated } from 'src/types';
+import {
+  IOrder,
+  IOrderProduct,
+  IOrderRequestCreate,
+  IOrderStatus,
+  IPaginated,
+} from 'src/types';
 import { InjectionKey, ref } from 'vue';
 
 interface ICounter {
@@ -42,6 +48,14 @@ class OrderProvider {
     const resp = await api.get<ICounter>('orders/count', { params });
     this.counter.value = resp.data;
     return resp.data;
+  }
+  /**
+   * create
+   * @param order
+   * @returns
+   */
+  async create(order: IOrderRequestCreate) {
+    return api.post<IOrder>('orders', order);
   }
   /**
    * filter

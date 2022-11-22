@@ -23,12 +23,13 @@ const qty = ref(1);
   <q-card>
     <q-card-actions v-if="cart">
       <div class="full-width">
-        <div class="row">
-          <div class="col">
-            <input-spinner v-model="qty" :min="1" button-class="bg-secondary" />
+        <div class="row q-col-gutter-sm">
+          <div class="col-xs-4">
+            <input-spinner v-model="qty" :min="1" button-class="bg-primary" />
           </div>
           <div class="col">
             <q-btn
+              outline
               color="primary"
               style="height: 2.5rem"
               icon="mdi-cart-plus"
