@@ -28,7 +28,8 @@ Route::apiResource('clients', ClientController::class)->except('update');
  * -----------------------------------------
  */
 Route::get('products/onsale', [ProductController::class, 'onsale']);
-Route::apiResource('products', ProductController::class);
+Route::post('products/{id}', [ProductController::class, 'update']);
+Route::apiResource('products', ProductController::class)->except('update');
 
 /**
  * -----------------------------------------

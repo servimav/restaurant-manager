@@ -9,7 +9,7 @@ import OrderOffer from './OrderOfferWidget.vue';
  * -----------------------------------------
  */
 
-const $props = defineProps<{ order: IOrder }>();
+const $props = defineProps<{ order: IOrder; editable?: boolean }>();
 const $emit = defineEmits<{ (e: 'change-status', p: IOrderStatus): void }>();
 /**
  * -----------------------------------------
@@ -96,9 +96,10 @@ const status = computed<{
     </q-card-section>
     <q-card-section>
       <div class="text-body1">Total: {{ toMoney(order.total_price) }}</div>
+      <div class="text-subtitle">Creado por: {{ order.user.name }}</div>
     </q-card-section>
 
-    <q-card-section>
+    <q-card-section v-if="editable">
       <q-btn
         color="primary"
         dense

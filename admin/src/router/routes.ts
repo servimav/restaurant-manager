@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router';
-import { AuthGuard } from './guards';
+import { ManagerGuard } from './guards';
 import { ROUTE_NAME } from './names';
 
 const routes: RouteRecordRaw[] = [
@@ -19,7 +19,7 @@ const routes: RouteRecordRaw[] = [
       },
       {
         path: 'orders',
-        name: ROUTE_NAME.CLIENT_CHECKOUT,
+        name: ROUTE_NAME.CLIENT_ORDERS,
         component: () => import('pages/OrdersPage.vue'),
       },
     ],
@@ -27,7 +27,7 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/admin',
     component: () => import('layouts/MainLayout.vue'),
-    beforeEnter: AuthGuard,
+    beforeEnter: ManagerGuard,
     children: [
       {
         path: '',

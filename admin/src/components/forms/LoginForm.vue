@@ -71,7 +71,8 @@ const loginForm = ref<IUserRequestLogin>({
 async function login() {
   try {
     await User.login(loginForm.value);
-    void $router.push({ name: ROUTE_NAME.HOME });
+    if (User.isManager) void $router.push({ name: ROUTE_NAME.HOME });
+    else void $router.push({ name: ROUTE_NAME.CLIENT_MENU });
   } catch (error) {
     useNotification.axiosError(error);
   }

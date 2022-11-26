@@ -28,6 +28,6 @@ export interface IProductRequestCreate {
   production_price: number; // Precio de produccion
   top_price: number; // Precio maximo
   category_id: number;
-  image: string;
+  image?: string | File;
   onsale: boolean;
 }

@@ -61,7 +61,12 @@
       <!-- / Categories -->
 
       <!-- Cart -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.CLIENT_CART }">
+      <q-item
+        exact
+        clickable
+        :to="{ name: ROUTE_NAME.CLIENT_CART }"
+        v-if="isCamarero"
+      >
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-cart" text-color="primary" />
         </q-item-section>
@@ -72,17 +77,46 @@
       </q-item>
       <!-- / Cart -->
 
-      <!-- Settings -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+      <!-- Ordenes -->
+      <q-item
+        exact
+        clickable
+        :to="{ name: ROUTE_NAME.CLIENT_ORDERS }"
+        v-if="isCamarero"
+      >
         <q-item-section avatar top>
-          <q-avatar size="md" icon="mdi-wrench" text-color="primary" />
+          <q-avatar size="md" icon="mdi-cart-outline" text-color="primary" />
         </q-item-section>
 
         <q-item-section>
-          <q-item-label lines="1">Ajustes</q-item-label>
+          <q-item-label lines="1">Pedidos</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Ordenes -->
+
+      <!-- Settings -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-account-group" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Acceder</q-item-label>
         </q-item-section>
       </q-item>
       <!-- / Settings -->
+
+      <!-- Exit -->
+      <q-item clickable @click="exit" v-if="isCamarero">
+        <q-item-section avatar top>
+          <q-avatar size="md" icon="mdi-exit-to-app" text-color="primary" />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Salir</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Exit -->
     </q-list>
 
     <!--
@@ -141,11 +175,11 @@
       <!-- Settings -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.SETTINGS }">
         <q-item-section avatar top>
-          <q-avatar size="md" icon="mdi-wrench" text-color="primary" />
+          <q-avatar size="md" icon="mdi-account-group" text-color="primary" />
         </q-item-section>
 
         <q-item-section>
-          <q-item-label lines="1">Ajustes</q-item-label>
+          <q-item-label lines="1">Usuarios</q-item-label>
         </q-item-section>
       </q-item>
       <!-- / Settings -->
@@ -179,9 +213,11 @@ const $router = useRouter();
 defineProps<{ modelValue: boolean; client?: boolean }>();
 defineEmits<{ (e: 'update:model-value', p: boolean): void }>();
 
-const userName = computed(() => User.profile.name);
+const userName = computed(() => User.profile?.name);
 
 const categories = computed(() => Menu.categories);
+
+const isCamarero = computed(() => User.isCamarero);
 
 function exit() {
   User.logout();

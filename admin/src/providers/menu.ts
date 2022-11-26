@@ -59,7 +59,11 @@ class MenuProvider {
    * @returns
    */
   async storeProduct(p: IProductRequestCreate) {
-    return await api.post<IProduct>('products', p);
+    return await api.post<IProduct>('products', p, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
   /**
    * updateProduct
@@ -67,7 +71,11 @@ class MenuProvider {
    * @returns
    */
   async updateProduct(id: number, p: Partial<IProductRequestCreate>) {
-    return await api.patch<IProduct>(`products/${id}`, p);
+    return await api.post<IProduct>(`products/${id}`, p, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   }
   /**
    * destroyProduct

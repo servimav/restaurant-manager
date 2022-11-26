@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public static $ROLES = ['admin', 'manager', 'supervisor'];
+    public static $ROLES = ['admin', 'manager', 'camarero'];
 
     protected $guarded = ['id'];
 

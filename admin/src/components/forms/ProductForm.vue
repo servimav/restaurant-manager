@@ -3,6 +3,7 @@ import { computed, onBeforeMount, ref } from 'vue';
 import { IProduct, IProductRequestCreate } from 'src/types';
 import { injectStrict, MenuKey } from 'src/providers';
 import { useNotification } from 'src/helpers';
+import { serialize } from 'object-to-formdata';
 /**
  * -----------------------------------------
  *	Init
@@ -17,6 +18,7 @@ const $props = defineProps<{ update?: IProduct }>();
  * -----------------------------------------
  */
 const categories = computed(() => Menu.categories);
+const image = ref<File>();
 
 const form = ref<IProductRequestCreate>({
   category_id: 1,
@@ -37,9 +39,26 @@ const isUpdate = computed(() => Boolean($props.update));
 async function onSubmit() {
   try {
     let data: IProduct;
-    if (isUpdate.value && $props.update)
-      data = (await Menu.updateProduct($props.update.id, form.value)).data;
-    else data = (await Menu.storeProduct(form.value)).data;
+    form.value.image = image.value;
+
+    const formData = serialize(form.value, {
+      nullsAsUndefineds: true,
+      booleansAsIntegers: true,
+    });
+
+    console.log({ form: form.value });
+    if (isUpdate.value && $props.update) {
+      data = (
+        await Menu.updateProduct(
+          $props.update.id,
+          formData as unknown as Partial<IProductRequestCreate>
+        )
+      ).data;
+    } else {
+      data = (
+        await Menu.storeProduct(formData as unknown as IProductRequestCreate)
+      ).data;
+    }
     $emit('completed', data);
   } catch (error) {
     useNotification.axiosError(error);
@@ -86,6 +105,11 @@ onBeforeMount(() => {
           option-value="id"
           label="Categoria"
         />
+        <q-file outlined v-model="image" accept=".jpg, image/*" label="Imagen">
+          <template v-slot:prepend>
+            <q-icon name="mdi-image" />
+          </template>
+        </q-file>
         <q-toggle v-model="form.onsale" color="green" label="Disponible" />
         <q-input
           v-model="form.production_price"

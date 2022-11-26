@@ -11,11 +11,11 @@ const $props = defineProps<{ modelValue: IFilter }>();
 const $emit = defineEmits<{ (e: 'update:model-value', p: IFilter): void }>();
 
 const chips: IFilter[] = [
-  {
-    icon: 'mdi-expand-all-outline',
-    label: 'Todos',
-    status: 'all',
-  },
+  // {
+  //   icon: 'mdi-expand-all-outline',
+  //   label: 'Todos',
+  //   status: 'all',
+  // },
   {
     icon: 'mdi-cart-plus',
     label: 'Nuevos',
@@ -31,11 +31,11 @@ const chips: IFilter[] = [
   //   label: 'Preparando',
   //   status: 'preparing',
   // },
-  {
-    icon: 'mdi-account-cancel',
-    label: 'Cancelado',
-    status: 'c-canceled',
-  },
+  // {
+  //   icon: 'mdi-account-cancel',
+  //   label: 'Cancelado',
+  //   status: 'c-canceled',
+  // },
   {
     icon: 'mdi-cancel',
     label: 'Denegado',

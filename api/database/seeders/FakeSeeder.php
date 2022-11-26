@@ -25,7 +25,7 @@ class FakeSeeder extends Seeder
         $this->users();
         $this->categories();
         $this->products(10, 10);
-        $this->clients();
+        // $this->clients();
         $this->orders(10, 20);
         $this->orderProducts();
     }
@@ -121,7 +121,8 @@ class FakeSeeder extends Seeder
             $data = [];
             for ($l = 0; $l < $limit; $l++) {
                 array_push($data, [
-                    'client_id' => $faker->numberBetween(1, Client::count()),
+                    // 'client_id' => $faker->numberBetween(1, Client::count()),
+                    'user_id' => $faker->numberBetween(2, User::count()),
                     'total_price' => $faker->numberBetween(1, 100),
                     'table_number' => $faker->numberBetween(1, 10),
                     'status' => $faker->randomElement(Order::$STATUS),

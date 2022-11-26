@@ -7,18 +7,44 @@ import {
   IUserRequestStore,
   IUserResponseLogin,
 } from 'src/types';
-import { InjectionKey, reactive, ref } from 'vue';
+import { InjectionKey, ref } from 'vue';
 /**
  * useUser
  * @returns
  */
 class UserProvider {
   /**
-   * profile
+   * _profile
    */
-  profile = reactive<IUser>(DEFAULT_USER);
+  private _profile = ref<IUser | undefined>(DEFAULT_USER);
 
   api_token = ref<string | undefined>();
+
+  get profile() {
+    return this._profile.value;
+  }
+  set profile(p: IUser | undefined) {
+    this._profile.value = p;
+  }
+
+  get isAdmin() {
+    return this._profile.value && this._profile.value.role === 'admin';
+  }
+  get isCamarero() {
+    return (
+      this._profile.value &&
+      (this._profile.value.role === 'camarero' ||
+        this._profile.value.role === 'admin' ||
+        this._profile.value.role === 'manager')
+    );
+  }
+  get isManager() {
+    return (
+      this._profile.value &&
+      (this._profile.value.role === 'manager' ||
+        this._profile.value.role === 'admin')
+    );
+  }
 
   /**
    * -----------------------------------------
@@ -28,7 +54,7 @@ class UserProvider {
   async login(p: IUserRequestLogin) {
     const resp = await api.post<IUserResponseLogin>('users/login', p);
     const { api_token, data } = resp.data;
-    this.profile = data;
+    this._profile.value = data;
     this.api_token.value = api_token;
     useStorage().set('UserProvider', resp.data);
   }
@@ -77,7 +103,7 @@ class UserProvider {
     const storage = useStorage().get<IUserResponseLogin | null>('UserProvider');
     if (storage) {
       const { api_token, data } = storage;
-      this.profile = data;
+      this._profile.value = data;
       this.api_token.value = api_token;
     }
   }
@@ -87,13 +113,7 @@ class UserProvider {
    */
   logout() {
     useStorage().remove('UserProvider');
-    this.profile = {
-      id: 0,
-      name: '',
-      phone: '',
-      created_at: '',
-      role: 'supervisor',
-    };
+    this._profile.value = undefined;
     this.api_token.value = undefined;
   }
 }

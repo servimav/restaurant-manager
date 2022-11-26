@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { data } from 'browserslist';
 import { Notify } from 'quasar';
 import { useNotification } from 'src/helpers';
 import { injectStrict, UserKey } from 'src/providers';
 import { IRoleName, IUser, IUserRequestStore } from 'src/types';
 import { computed, onBeforeMount, ref } from 'vue';
 
-const ROLES: IRoleName[] = ['admin', 'manager', 'supervisor'];
+const ROLES: IRoleName[] = ['manager', 'camarero'];
 
 const $emit = defineEmits<{
   (e: 'completed', p: IUser): void;
@@ -20,7 +19,7 @@ const form = ref<IUserRequestStore>({
   password: '',
   password_confirmation: '',
   phone: '',
-  role: 'supervisor',
+  role: 'camarero',
 });
 
 const isUpdate = computed(() => Boolean($props.update));
@@ -54,7 +53,7 @@ onBeforeMount(() => {
       password: '',
       password_confirmation: '',
       phone: $props.update.phone,
-      role: 'supervisor',
+      role: 'camarero',
     };
   }
 });
@@ -77,7 +76,12 @@ onBeforeMount(() => {
           :readonly="isUpdate"
           required
         />
-        <q-select v-model="form.role" :options="ROLES" label="Rol" />
+        <q-select
+          v-model="form.role"
+          style="text-transform: uppercase"
+          :options="ROLES"
+          label="Rol"
+        />
         <q-input
           v-model="form.password"
           type="password"
@@ -99,6 +103,7 @@ onBeforeMount(() => {
           label="Guardar"
           type="submit"
         /><q-btn
+          v-if="isUpdate"
           color="negative"
           icon="mdi-delete"
           label="Eliminar"
@@ -108,3 +113,9 @@ onBeforeMount(() => {
     </q-form>
   </q-card>
 </template>
+
+<style scoped>
+.q-select__dialog {
+  text-transform: uppercase !important;
+}
+</style>

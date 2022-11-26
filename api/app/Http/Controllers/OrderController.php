@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\OrderResource;
-use App\Models\Client;
+// use App\Models\Client;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ class OrderController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth:sanctum')->except('store');
+        $this->middleware('auth:sanctum');
         $this->middleware('role:manager')->only(['update']);
     }
     /**
@@ -36,10 +36,10 @@ class OrderController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'table_number' => ['required', 'integer'],
-            'client' => ['required', 'array'],
-            'client.name' => ['required', 'string'],
-            'client.ci' => ['required', 'string'],
-            'client.contact' => ['required', 'string'],
+            // 'client' => ['required', 'array'],
+            // 'client.name' => ['required', 'string'],
+            // 'client.ci' => ['required', 'string'],
+            // 'client.contact' => ['required', 'string'],
             'order_products' => ['required', 'array'],
             'order_products.*.product_id' => ['required', 'integer'],
             'order_products.*.qty' => ['required', 'integer'],
@@ -49,16 +49,17 @@ class OrderController extends Controller
         }
         $validator = $validator->validate();
         // Check Client
-        $client = Client::query()->where('ci', $validator['client']['ci'])->first();
-        if (!$client) {
-            $client = new Client($validator['client']);
-            if (!$client->save())
-                return $this->errorResponse('No se pudo crear el cliente');
-        }
+        // $client = Client::query()->where('ci', $validator['client']['ci'])->first();
+        // if (!$client) {
+        //     $client = new Client($validator['client']);
+        //     if (!$client->save())
+        //         return $this->errorResponse('No se pudo crear el cliente');
+        // }
         // complete required data
+        $validator['user_id'] = auth()->id();
         $validator['status'] = 'created';
         $validator['total_price'] = 0;
-        $validator['client_id'] = $client->id;
+        // $validator['client_id'] = $client->id;
         // Handle OrderProducts
         // TODO Validate stock
         $orderProducts = [];

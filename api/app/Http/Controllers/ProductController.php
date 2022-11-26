@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\ProductResource;
+use App\Http\Traits\HandleImage;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -10,6 +11,9 @@ use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
 {
+
+    use HandleImage;
+
     /**
      * Instantiate a new controller instance.
      *
@@ -68,13 +72,15 @@ class ProductController extends Controller
             'top_price' => ['nullable', 'numeric'],
             'onsale' => ['nullable', 'boolean'],
             'category_id' => ['required', 'integer'],
+            'image' => ['nullable', 'image']
         ]);
         if ($validator->fails()) {
             return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
-        // TODO Handle image
         $validator['image'] = '/images/default.jpg';
+        if (isset($validator['image']))
+            $validator['image'] = $this->imageUpload($request);
         // Check Category
         if (!ProductCategory::query()->find($validator['category_id']))
             return $this->errorResponse('categoria no existe');
@@ -104,7 +110,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(int $id, Request $request)
     {
         $validator = Validator::make($request->all(), [
             'title' => ['nullable', 'string'],
@@ -114,17 +120,21 @@ class ProductController extends Controller
             'top_price' => ['nullable', 'numeric'],
             'onsale' => ['nullable', 'boolean'],
             'category_id' => ['nullable', 'integer'],
+            'image' => ['nullable', 'image']
         ]);
         if ($validator->fails()) {
             return $this->errorResponse('Verifique los datos enviados');
         }
         $validator = $validator->validate();
+        $model = Product::find($id);
+
         if (isset($validator['category_id']) && !ProductCategory::query()->find($validator['category_id']))
             return $this->errorResponse('categoria no existe');
-        // TODO Handle image
-        $validator['image'] = '/images/default.jpg';
-
-        $model = Product::find($id);
+        if (isset($validator['image'])) {
+            // Remove old image
+            $this->imageDelete($model->image);
+            $validator['image'] = $this->imageUpload($request);
+        }
         return $model && $model->update($validator)
             ? new ProductResource($model)
             : $this->errorResponse('No se pudo guardar el producto');

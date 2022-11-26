@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { setHeaderTitle, toMoney } from 'src/helpers';
-import { computed, onBeforeMount } from 'vue';
+import { setHeaderTitle, toMoney, useNotification } from 'src/helpers';
+import { computed, onBeforeMount, ref } from 'vue';
 import OrderProduct from 'components/widgets/OrderOfferWidget.vue';
-import ClientForm from 'src/components/forms/ClientForm.vue';
-import { ApplicationKey, injectStrict, OrderKey } from 'src/providers';
+import { injectStrict, OrderKey } from 'src/providers';
 import { ROUTE_NAME } from 'src/router';
+import { useRouter } from 'vue-router';
 
-const App = injectStrict(ApplicationKey);
+const $router = useRouter();
 const Order = injectStrict(OrderKey);
 
 const cart = computed(() => Order.cart);
-const table = computed(() => App.table);
+const table = ref(1);
 
 const totalPrice = computed(() => {
   let total = 0;
@@ -20,6 +20,22 @@ const totalPrice = computed(() => {
   return total;
 });
 
+/**
+ * onSubmit
+ */
+async function onSubmit() {
+  try {
+    const resp = await Order.create({
+      order_products: cart.value,
+      table_number: 1,
+    });
+    useNotification.success([`La Orden #${resp.data.id} ha sido creada`]);
+    void $router.push({ name: ROUTE_NAME.CLIENT_MENU });
+  } catch (error) {
+    useNotification.axiosError(error);
+  }
+}
+
 onBeforeMount(() => {
   setHeaderTitle('Carrito');
 });
@@ -27,11 +43,11 @@ onBeforeMount(() => {
 
 <template>
   <q-page padding>
-    <q-card class="no-box-shadow">
+    <q-card class="no-box-shadow" v-if="cart.length">
       <q-card-section>
-        <div class="text-h6">Mesa No. {{ table }}</div>
+        <q-input v-model="table" type="number" min="1" label="No. Mesa" />
       </q-card-section>
-      <q-card-section v-if="cart.length">
+      <q-card-section>
         <div
           v-for="(of, ofKey) in cart"
           :key="`order-offer-${of.product_id}-${ofKey}`"
@@ -43,19 +59,26 @@ onBeforeMount(() => {
           Total: {{ toMoney(totalPrice) }}
         </div>
       </q-card-section>
-      <q-card-section v-else>
+      <q-card-section v-if="cart.length">
         <q-btn
           color="primary"
-          icon="mdi-cart-plus"
+          icon="mdi-check"
           class="full-width"
-          outline
-          label="Ver Menu"
-          :to="{ name: ROUTE_NAME.CLIENT_MENU }"
+          label="Completar"
+          @click="onSubmit"
         />
       </q-card-section>
-      <q-card-section v-if="cart.length">
-        <ClientForm :order-products="cart" :table="table" />
-      </q-card-section>
     </q-card>
+
+    <q-card-section v-else>
+      <q-btn
+        color="primary"
+        icon="mdi-cart-plus"
+        class="full-width"
+        outline
+        label="Ver Menu"
+        :to="{ name: ROUTE_NAME.CLIENT_MENU }"
+      />
+    </q-card-section>
   </q-page>
 </template>

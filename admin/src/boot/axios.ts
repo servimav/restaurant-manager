@@ -44,4 +44,4 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api;
 });
 
-export { api, baseURL };
+export { api, baseURL, axios };

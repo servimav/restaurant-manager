@@ -48,7 +48,6 @@ function onDecode(qr: string) {
 async function onSubmit() {
   try {
     const resp = await Order.create({
-      client: client.value,
       order_products: $props.orderProducts,
       table_number: 1,
     });

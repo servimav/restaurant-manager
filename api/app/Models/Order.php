@@ -16,9 +16,14 @@ class Order extends Model
     /**
      * Client
      */
-    public function client()
+    // public function client()
+    // {
+    //     return $this->belongsTo(Client::class);
+    // }
+
+    public function user()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(User::class);
     }
     /**
      * order_products

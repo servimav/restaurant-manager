@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useNotification, DEFAULT_COLS_SM, setHeaderTitle } from 'src/helpers';
-import { injectStrict, MenuKey, OrderKey } from 'src/providers';
+import { injectStrict, MenuKey, OrderKey, UserKey } from 'src/providers';
 import { computed, onBeforeMount, ref } from 'vue';
 import { IProduct } from 'src/types';
 import ProductWidget from 'src/components/widgets/ProductWidget.vue';
@@ -9,6 +9,7 @@ import { onBeforeRouteUpdate } from 'vue-router';
 
 const Menu = injectStrict(MenuKey);
 const Order = injectStrict(OrderKey);
+const User = injectStrict(UserKey);
 /**
  * -----------------------------------------
  *	Data
@@ -18,6 +19,7 @@ const Order = injectStrict(OrderKey);
 const products = computed(() => Menu.onsale);
 const selected = ref<IProduct>();
 const dialogDetails = ref(false);
+const isCamarero = computed(() => User.isCamarero);
 /**
  * -----------------------------------------
  *	Methods
@@ -95,7 +97,7 @@ onBeforeRouteUpdate((route) => {
       <product-detailed
         :data="selected"
         class="dialog-form"
-        cart
+        :cart="isCamarero"
         @add-to-cart="onAddToCart"
       />
     </q-dialog>

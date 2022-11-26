@@ -14,7 +14,7 @@ import OrderSelection, {
 import OrderWidget from 'src/components/widgets/OrderWidget.vue';
 import { Dialog } from 'quasar';
 import { useRoute } from 'vue-router';
-import { route } from 'quasar/wrappers';
+import { ROUTE_NAME } from 'src/router';
 /**
  * -----------------------------------------
  *	Init
@@ -28,7 +28,7 @@ const $route = useRoute();
  *	Data
  * -----------------------------------------
  */
-
+const editable = ref(false);
 const filter = ref<IFilter>({
   icon: 'mdi-check',
   label: 'Todos',
@@ -111,8 +111,10 @@ async function onPaginationChange(p: number) {
 
 onBeforeMount(async () => {
   setHeaderTitle('Pedidos');
+  if ($route.name === ROUTE_NAME.ORDERS) editable.value = true;
   if ($route.query.status)
     filter.value.status = $route.query.status as IOrderStatus;
+  else filter.value.status = 'created';
   await loadOrders(filter.value.status);
 });
 </script>
@@ -139,6 +141,7 @@ onBeforeMount(async () => {
         >
           <order-widget
             :order="order"
+            :editable="editable"
             @change-status="(status) => onChangeStatus({ status, order })"
           />
         </div>

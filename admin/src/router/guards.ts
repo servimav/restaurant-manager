@@ -23,7 +23,24 @@ export const AdminGuard: NavigationGuard = (to, from, next) => {
     to.name !== ROUTE_NAME.AUTH_LOGIN &&
     isAuth() &&
     User.profile.role &&
-    User.profile.role === 'admin'
+    User.isAdmin
+  )
+    next();
+  else next({ name: ROUTE_NAME.AUTH_LOGIN });
+};
+
+/**
+ * ManagerGuard
+ * @param to
+ * @param from
+ * @param next
+ */
+export const ManagerGuard: NavigationGuard = (to, from, next) => {
+  if (
+    to.name !== ROUTE_NAME.AUTH_LOGIN &&
+    isAuth() &&
+    User.profile.role &&
+    User.isManager
   )
     next();
   else next({ name: ROUTE_NAME.AUTH_LOGIN });

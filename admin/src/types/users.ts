@@ -13,7 +13,7 @@ export interface IUser {
 /**
  * Role Name type
  */
-export type IRoleName = 'admin' | 'manager' | 'supervisor';
+export type IRoleName = 'admin' | 'manager' | 'supervisor' | 'camarero';
 
 /**
  * IUserRequestLogin
