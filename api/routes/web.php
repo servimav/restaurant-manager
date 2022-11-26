@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
-
+use Barryvdh\DomPDF\Facade\Pdf;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,4 +16,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect(env('APP_URL') . '/ui');
+});
+
+
+Route::prefix('reports')->group(function () {
+    Route::get('orders', [ReportController::class, 'orders']);
 });
