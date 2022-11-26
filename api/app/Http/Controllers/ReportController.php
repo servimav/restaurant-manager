@@ -46,28 +46,30 @@ class ReportController extends Controller
     public function orders(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'from' => ['required', 'string'],
-            'to' => ['required', 'string'],
-            'status' => ['required', 'in:' . implode(',', Order::$STATUS)]
+            'from' => ['nullable', 'string'],
+            'to' => ['nullable', 'string'],
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toArray(), 400, [], JSON_NUMERIC_CHECK);
         }
         $validator = $validator->validate();
-        $qry = Order::query()
-            ->where('status', $validator['status'])
-            ->whereDate('created_at', '>=', new Carbon($validator['from']))
-            ->whereDate('created_at', '<=', new Carbon($validator['to']));
+        $orderQry = Order::query()
+            ->where('status', 'completed');
+        if (isset($validator['from']))
+            $orderQry = $orderQry->whereDate('created_at', '>=', new Carbon($validator['from']));
+
+        if (isset($validator['to']))
+            $orderQry = $orderQry->whereDate('created_at', '<=', new Carbon($validator['to']));
         $data = [
             'total_price' => 0,
             'orders' => [],
             'dates' => [
-                'from' => $validator['from'],
-                'to' => $validator['to'],
+                'from' => isset($validator['from']) ? $validator['from'] : null,
+                'to' => isset($validator['to']) ? $validator['to'] : null,
             ],
-            'title' => $validator['status'] === 'completed' ? 'Reporte de Ventas' : 'Reporte de Cancelaciones'
+            'title' =>  'Reporte de Ventas'
         ];
-        foreach ($qry->get() as $order) {
+        foreach ($orderQry->get() as $order) {
             array_push($data['orders'], [
                 'id' => $order->id,
                 'created_at' => $order->created_at,
@@ -81,7 +83,7 @@ class ReportController extends Controller
 
         $pdf = Pdf::loadView('pdf.sales', $data);
 
-        return $pdf->download('ordenes_' . $validator['status'] . '.pdf');
+        return $pdf->download('ordenes.pdf');
     }
 
     /**

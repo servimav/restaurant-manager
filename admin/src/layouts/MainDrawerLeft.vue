@@ -148,7 +148,7 @@
       </q-item>
       <!-- / Ordenes -->
 
-      <!-- Menu -->
+      <!-- CATEGORIES -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.CATEGORIES }">
         <q-item-section avatar top>
           <q-avatar
@@ -162,7 +162,7 @@
           <q-item-label lines="1">Categorias</q-item-label>
         </q-item-section>
       </q-item>
-      <!-- / Menu -->
+      <!-- / CATEGORIES -->
 
       <!-- Menu -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.MENU }">
@@ -177,7 +177,7 @@
       <!-- / Menu -->
 
       <!-- Reportes -->
-      <q-item exact clickable :to="{ name: ROUTE_NAME.HOME }">
+      <q-item exact clickable :to="{ name: ROUTE_NAME.REPORTS }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-chart-bar" text-color="primary" />
         </q-item-section>
