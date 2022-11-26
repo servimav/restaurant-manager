@@ -22,7 +22,7 @@
             <th>Mesa</th>
             <th>Camarero</th>
             <th>Estado</th>
-            <th>Total $</th>
+            <th>Precio</th>
         </tr>
     </thead>
     <tbody>
@@ -32,7 +32,7 @@
             <td>Mesa No. {{ $order['table_number'] }} </td>
             <td>{{ $order['camarero'] }}</td>
             <td>{{ $order['status'] }}</td>
-            <td align="right">{{ $order['price'] }}</td>
+            <td align="right">${{ $order['price'] }}</td>
         </tr>
         @endforeach
     </tbody>

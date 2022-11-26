@@ -20,5 +20,7 @@ Route::get('/', function () {
 
 
 Route::prefix('reports')->group(function () {
+    Route::get('cart', [ReportController::class, 'cart']);
     Route::get('orders', [ReportController::class, 'orders']);
+    Route::get('products', [ReportController::class, 'products']);
 });

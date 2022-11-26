@@ -35,9 +35,9 @@
 
     <table width="100%">
         <tr>
-            <td valign="top"><img src="https://via.placeholder.com/150" alt="" width="150" /></td>
+            <td valign="top"><img src="{{public_path('/images/default.jpg')}}" alt="" width="150" /></td>
             <td align="right">
-                <h3>Shinra Electric power company</h3>
+                <h3>Restaurant Buena Vibra</h3>
                 <pre>
                 Company representative name
                 Company address
