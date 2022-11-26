@@ -149,6 +149,22 @@
       <!-- / Ordenes -->
 
       <!-- Menu -->
+      <q-item exact clickable :to="{ name: ROUTE_NAME.CATEGORIES }">
+        <q-item-section avatar top>
+          <q-avatar
+            size="md"
+            icon="mdi-format-list-checkbox"
+            text-color="primary"
+          />
+        </q-item-section>
+
+        <q-item-section>
+          <q-item-label lines="1">Categorias</q-item-label>
+        </q-item-section>
+      </q-item>
+      <!-- / Menu -->
+
+      <!-- Menu -->
       <q-item exact clickable :to="{ name: ROUTE_NAME.MENU }">
         <q-item-section avatar top>
           <q-avatar size="md" icon="mdi-food-turkey" text-color="primary" />

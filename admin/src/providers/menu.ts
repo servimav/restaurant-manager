@@ -40,6 +40,46 @@ class MenuProvider {
     return resp.data;
   }
   /**
+   * createCategory
+   * @param c
+   * @returns
+   */
+  async createCategory(c: Omit<IProductCategory, 'id'>) {
+    const resp = await api.post<IProductCategory>('product-categories', c);
+    this._categories.value.push(resp.data);
+    return resp.data;
+  }
+  /**
+   * updateCategory
+   * @param id
+   * @param c
+   * @returns
+   */
+  async updateCategory(id: number, c: Omit<IProductCategory, 'id'>) {
+    const resp = await api.patch<IProductCategory>(
+      `product-categories/${id}`,
+      c
+    );
+    const index = this._categories.value.findIndex((c) => c.id === id);
+    if (index >= 0) {
+      this._categories.value[index] = resp.data;
+    }
+    return resp.data;
+  }
+
+  /**
+   * removeCategory
+   * @param id
+   * @returns
+   */
+  async removeCategory(id: number) {
+    await api.delete<IProductCategory>(`product-categories/${id}`);
+    const index = this._categories.value.findIndex((c) => c.id === id);
+    if (index >= 0) {
+      this._categories.value.splice(index, 1);
+    }
+  }
+  /**
    * list
    */
   async list(page = 1) {
