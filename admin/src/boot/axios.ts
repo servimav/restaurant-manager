@@ -7,7 +7,17 @@ declare module '@vue/runtime-core' {
     $axios: AxiosInstance;
   }
 }
-const baseURL = process.env.API_SERVER;
+
+/**
+ * @const baseURL URl de la API
+ */
+let baseURL = '';
+
+if (process.env.API_SERVER) {
+  baseURL = process.env.API_SERVER;
+} else {
+  baseURL = window.location.origin;
+}
 
 const api = axios.create({
   baseURL: `${baseURL}/api`,

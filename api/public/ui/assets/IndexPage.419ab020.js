@@ -1,0 +1,1 @@
+import{Q as e}from"./QPage.35b7a6ff.js";import{d as a,ah as o,aq as t,o as s,e as n}from"./index.04fb470e.js";const _=a({__name:"IndexPage",setup(r){return o(()=>{t("Inicio")}),(c,i)=>(s(),n(e,{class:"row items-center justify-evenly"}))}});export{_ as default};
